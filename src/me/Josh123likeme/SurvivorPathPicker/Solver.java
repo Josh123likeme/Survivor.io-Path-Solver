@@ -16,23 +16,29 @@ public class Solver {
 		
 		for (int i = 0; i < Math.pow(4, steps); i++) {
 			
+			if (i % ((int) (Math.pow(4, steps) / 100)) == 0) System.out.println(((double) i * 100 / Math.pow(4, steps)) + "% (" + i + "/" + Math.pow(4, steps) + ")");
+			
 			Direction[] dirs = generateDirsFromNumber(i, steps);
+			
+			boolean backtracks = false;
 			
 			for (int j = 1; j < dirs.length; j++) {
 				
 				//path backtracks
-				if (dirs[j].getOpposite().equals(dirs[j - 1])) continue;
+				if (dirs[j].getOpposite().equals(dirs[j - 1])) backtracks = true;
 				
 			}
 			
-			double weight = generateWeightForPath(board, dirs, startX, startY);
-			
-			if (weight > bestWeight) {
-				bestWeight = weight;
-				bestContender = i;
+			if (!backtracks) {
+				
+				double weight = generateWeightForPath(board, dirs, startX, startY);
+				
+				if (weight > bestWeight) {
+					bestWeight = weight;
+					bestContender = i;
+				}
+				
 			}
-			
-			if (i % ((int) (Math.pow(4, steps) / 100)) == 0) System.out.println(((double) i * 100 / Math.pow(4, steps)) + "% (" + i + "/" + Math.pow(4, steps) + ")");
 			
 		}
 		
